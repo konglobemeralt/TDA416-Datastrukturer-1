@@ -217,7 +217,7 @@ public class DLList {
 	* @param k the number of remaining points
 	* @throws NoSuchElementException if the priority queue becomes empty
 	*/
-	public void reduceListToKElements(int k) {
+	public void reduceListToKElements(int k) throws NoSuchElementException{
 		DLListIterator it = new DLListIterator();
 		while(it.hasNext()){
 			it.next();
@@ -227,21 +227,26 @@ public class DLList {
 		}
 
 		while (k < this.size){
-			Node removed = q.poll();
-			Node prev = removed.prev;
-			Node next = removed.next;
-			prev.next = next;
-			next.prev = prev;
-			this.size--;
+			if(q.size()==0){
+				throw new NoSuchElementException();
+			}else {
+				Node removed = q.poll();
+				Node remPrev = removed.prev; //find the adjacent nodes
+				Node remNext = removed.next;
 
-			prev.imp = importanceOfP(prev.prev.p, prev.p, prev.next.p);
-			next.imp = importanceOfP(next.prev.p, next.p, next.next.p);
+				q.remove(remPrev);			// remove them from the priorityqueue
+				q.remove(remNext);
 
-			q.remove(prev);
-			q.remove(next);
-			q.add(prev);
-			q.add(next);
+				remPrev.next = remNext;		//chain together the nodes inbetween the nodes was removed
+				remNext.prev = remPrev;
+				this.size--;			//size of the dll is decreased
 
+				remPrev.imp = importanceOfP(remPrev.prev.p, remPrev.p, remPrev.next.p);  	// the imp-values of the nodes
+				remNext.imp = importanceOfP(remNext.prev.p, remNext.p, remNext.next.p);		//adjacent to the one we removed are updated
+
+				q.add(remPrev);			//the nodes are
+				q.add(remNext);
+			}
 		}
 		// Calculates the initial important measure for all nodes.
 		// Assume there are at least 3 nodes otherwise it's all meaningless.
