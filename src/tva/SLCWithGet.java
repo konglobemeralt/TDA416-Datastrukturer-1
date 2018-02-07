@@ -2,6 +2,12 @@ package tva;
 
 import java.util.NoSuchElementException;
 
+/**
+ * Sorted linked collection that puts elements in size order based on compareTo-function when they are added.
+ * Based on the LinkedCollection class given for this exercise.
+ * @param <E>
+ */
+
 public class SLCWithGet<E extends Comparable<? super E>> extends LinkedCollection<E> implements CollectionWithGet<E> {
 
 
