@@ -1,18 +1,24 @@
-//package testSortCol;
-import java.util.*;
+package tva;
 
 /**
- * An interface for <tt>CollectionWithGet</tt>.
- * This is an interface used by <tt>TestMapWithCounter</tt>
- * to specify its collection of  <tt>TestMapEntry</tt>'s.
+ * This is a regular <tt>AVL_Tree</tt>,
+ * extended with the method <tt>get</tt>, see below.
  * 
  * @author (Bror Bjerner) 
  * @version (2007)
  * @author EH
  * @version (2017)
  */
-public interface CollectionWithGet<E extends Comparable<? super E>>
-									extends Collection<E> {
+public class AVLwithGet<E extends Comparable<? super E>>
+						extends AVL_Tree<E>
+						implements CollectionWithGet<E>  {
+	/**
+	* Constructor for objects of class BSTwithGet
+	*/
+	public AVLwithGet() {
+		super();
+	} // constructor AVLwithGet
+
 	/**
 	*  Find the first occurence of an element 
 	*  in the collection that is equal to the argument
@@ -24,5 +30,9 @@ public interface CollectionWithGet<E extends Comparable<? super E>>
 	*           satisfying <tt>e.compareTo(e') == 0</tt>.
 	*           If no element is found, <tt>null</tt> is returned
 	*/
-	public E get(E e);
-}
+	public E get(E e) {
+		Entry t = find(e,root);
+		return t == null ? null : t.element;
+	}  // get
+}   // class AVLwithGet
+

@@ -1,3 +1,4 @@
+package tva;
 
 import java.io.*;
 import java.text.*;
@@ -6,7 +7,6 @@ import java.util.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.event.*;
 import static java.lang.Character.isLetter;
@@ -61,7 +61,7 @@ public class TestFrame extends JFrame implements ActionListener {
 	JRadioButton splay = new JRadioButton("Splay",false);
   
 
-	JButton test     = new JButton(" Choose file to test");
+	JButton test     = new JButton(" Choose file to tva");
 	JButton berakna  = new JButton(" Compute refs "); 
 	JLabel  filename = new JLabel(" No file choosen "); //
 	JLabel  antjfr   = new JLabel("--", JLabel.CENTER);

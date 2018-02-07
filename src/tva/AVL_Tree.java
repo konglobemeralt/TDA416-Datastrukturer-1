@@ -1,6 +1,4 @@
-//package datastructures;
-
-import java.util.*;
+package tva;//package datastructures;
 
 /**
  *  A binary searchtree ordered by the
