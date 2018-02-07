@@ -44,7 +44,14 @@ public class SLCWithGet<E extends Comparable<? super E>> extends LinkedCollectio
             return false;
         }
     }
-
+    /**
+     * searches the list for the element given as argument
+     * and returns it if it is found
+     *
+     * @param e the object to be retrieved from the list
+     * @return the object e if it exists in the list. returns null if the object wasn't found
+     * @throws NullPointerException if parameter <tt>e <tt> is null.
+     */
     @Override
     public E get(E e) {
         if(e!=null) {
