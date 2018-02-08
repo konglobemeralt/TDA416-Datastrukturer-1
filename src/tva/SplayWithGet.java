@@ -9,48 +9,55 @@ public class SplayWithGet<E extends Comparable<? super E>> extends BinarySearchT
         }
         Entry searchedEntry = this.find(element, this.root);
 
-        rearrangeToNewRoot(searchedEntry);
-
-        this.root = searchedEntry;
+        this.root = rearrangeToNewRoot(searchedEntry);
 
         return element;
     }
 
 
-    private void rearrangeToNewRoot(Entry newRoot){
-        while (newRoot.parent.parent != null){  //Check if gp exists
-            if (newRoot.element.compareTo(newRoot.parent.element) > 0){
-                //parent is smaller
-                if(newRoot.element.compareTo(newRoot.parent.parent.element) > 0){
-                    //gp is smaller
+    private Entry rearrangeToNewRoot(Entry newRoot){
+        if (newRoot.parent != null) {
+            while (newRoot.parent.parent != null){  //Check if gp exists
+                if (newRoot.element.compareTo(newRoot.parent.element) > 0){
+                    //parent is smaller
+                    if(newRoot.element.compareTo(newRoot.parent.parent.element) > 0){
+                        //gp is smaller
+                        zig(newRoot.parent);
+                    }else{
+                        //gp is larger
+                        zigZag(newRoot.parent.parent);
+                    }
+                }else if(newRoot.element.compareTo(newRoot.parent.element) < 0){
+                    //parent is larger
+                    if(newRoot.element.compareTo(newRoot.parent.parent.element) > 0){
+                        //gp is smaller
+                        zagZig(newRoot.parent.parent);
+                    }else{
+                        //gp is larger
+                        zag(newRoot.parent);
+                    }
+                }else{
+                    rearrangeWhenEqualParent(newRoot);
+                }
+                newRoot = newRoot.parent;
+                if (newRoot.parent == null){
+                    break;
+                }
+            }
+
+            if (newRoot.parent != null){
+                if(newRoot.element.compareTo(newRoot.parent.element) > 0){
                     zig(newRoot.parent);
-                }else{
-                    //gp is larger
-                    zigZag(newRoot.parent.parent);
-                }
-            }else if(newRoot.element.compareTo(newRoot.parent.element) < 0){
-                //parent is larger
-                if(newRoot.element.compareTo(newRoot.parent.parent.element) > 0){
-                    //gp is smaller
-                    zagZig(newRoot.parent.parent);
-                }else{
-                    //gp is larger
+                }else if(newRoot.element.compareTo(newRoot.parent.element) > 0){
                     zag(newRoot.parent);
+                }else{
+                    rearrangeWhenEqualParent(newRoot);
                 }
-            }else{
-                rearrangeWhenEqualParent(newRoot);
             }
         }
 
-        if (newRoot.parent != null){
-            if(newRoot.element.compareTo(newRoot.parent.element) > 0){
-                zig(newRoot.parent);
-            }else if(newRoot.element.compareTo(newRoot.parent.element) > 0){
-                zag(newRoot.parent);
-            }else{
-                rearrangeWhenEqualParent(newRoot);
-            }
-        }
+        return newRoot;
+
     }
 
     private void rearrangeWhenEqualParent(Entry child){
@@ -164,5 +171,6 @@ public class SplayWithGet<E extends Comparable<? super E>> extends BinarySearchT
         x.left    = z;
         z.parent  = x;
     } //  doubleRotateLeft
+
 
 }
