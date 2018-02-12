@@ -8,10 +8,12 @@ public class SplayWithGet<E extends Comparable<? super E>> extends BinarySearchT
             throw new NullPointerException();
         }
         Entry searchedEntry = this.find(element, this.root);
-
+        if(searchedEntry==null){
+            return null;
+        }
         this.root = rearrangeToNewRoot(searchedEntry);
 
-        return element;
+        return root.element;
     }
 
 

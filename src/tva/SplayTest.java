@@ -16,6 +16,8 @@ public class SplayTest {
         tree.get(30);
 
         System.out.println(tree.toString());
+
+        tree.get(10000);
     }
 
 }
