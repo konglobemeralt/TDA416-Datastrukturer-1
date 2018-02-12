@@ -2,6 +2,13 @@ package tva;
 
 public class SplayWithGet<E extends Comparable<? super E>> extends BinarySearchTree<E> implements CollectionWithGet<E> {
 
+    /**
+     * Retrieves the given element from the list if it exists, aswell as rearrange the tree
+     *
+     * @param element the element to be retrieved from the list
+     * @returns the object element if it exists in the list, otherwise it returns null.
+     * @throws NullPointerException if parameter <tt>element <tt> is null.
+     */
     @Override
     public E get(E element) {
         if (element == null){
@@ -16,7 +23,13 @@ public class SplayWithGet<E extends Comparable<? super E>> extends BinarySearchT
         return root.element;
     }
 
-
+    /**
+     * Rearranges the tree to make the given Entry newRoot become the
+     * new root.
+     *
+     * @param newRoot the element to be retrieved from the list
+     * @returns the entry which has become the new root.
+     */
     private Entry rearrangeToNewRoot(Entry newRoot){
         if (newRoot.parent != null) {
             while (newRoot.parent.parent != null){  //Check if gp exists
