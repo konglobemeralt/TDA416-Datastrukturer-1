@@ -1,5 +1,12 @@
 package tva;
 
+/**
+ * SplayTree-class which rearrange the tree to make the latest searched
+ * entry become the root of the tree. 
+ * Based on the BinarySearchTree class given for this exercise.
+ * @param <E>
+ */
+
 public class SplayWithGet<E extends Comparable<? super E>> extends BinarySearchTree<E> implements CollectionWithGet<E> {
 
     /**
@@ -32,23 +39,23 @@ public class SplayWithGet<E extends Comparable<? super E>> extends BinarySearchT
      */
     private Entry rearrangeToNewRoot(Entry newRoot){
         if (newRoot.parent != null) {
-            while (newRoot.parent.parent != null){  //Check if gp exists
+            while (newRoot.parent.parent != null){  //Check if grandparent exists
                 if (newRoot.element.compareTo(newRoot.parent.element) > 0){
                     //parent is smaller
                     if(newRoot.element.compareTo(newRoot.parent.parent.element) > 0){
-                        //gp is smaller
+                        //grandparent is smaller
                         zig(newRoot.parent);
                     }else{
-                        //gp is larger
+                        //grandparent is larger
                         zigZag(newRoot.parent.parent);
                     }
                 }else if(newRoot.element.compareTo(newRoot.parent.element) < 0){
                     //parent is larger
                     if(newRoot.element.compareTo(newRoot.parent.parent.element) > 0){
-                        //gp is smaller
+                        //grandparent is smaller
                         zagZig(newRoot.parent.parent);
                     }else{
-                        //gp is larger
+                        //grandparent is larger
                         zag(newRoot.parent);
                     }
                 }else{
