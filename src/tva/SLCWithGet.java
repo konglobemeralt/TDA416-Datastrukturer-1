@@ -34,7 +34,7 @@ public class SLCWithGet<E extends Comparable<? super E>> extends LinkedCollectio
             return true;
         }else{
             for ( Entry p = head; p != null; p = p.next ){
-                if (element.compareTo(p.next.element)<0) {
+                if (p.next == null || element.compareTo(p.next.element)<0) {
                     Entry newEntry = new Entry(element,p.next);
                     p.next = newEntry;
                     return true;
