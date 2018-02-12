@@ -55,6 +55,7 @@ public class SplayWithGet<E extends Comparable<? super E>> extends BinarySearchT
                 }else{
                     rearrangeWhenEqualParent(newRoot);
                 }
+                newRoot = newRoot.parent;
             }
         }
 
