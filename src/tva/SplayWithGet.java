@@ -25,9 +25,32 @@ public class SplayWithGet<E extends Comparable<? super E>> extends BinarySearchT
         if(searchedEntry==null){
             return null;
         }
-        this.root = rearrangeToNewRoot(searchedEntry);
+        this.root = splay(searchedEntry);
 
         return root.element;
+    }
+
+    @Override
+    protected Entry find( E elem, Entry t ) {
+        if ( t == null )
+            return null;
+        else {
+            int jfr = elem.compareTo( t.element );
+            if ( jfr  < 0 ) {
+                if (t.left == null){
+                    return t;
+                }
+                return find(elem, t.left);
+            }
+            else if ( jfr > 0 ) {
+                if (t.right == null) {
+                    return t;
+                }
+                return find(elem, t.right);
+            }
+            else
+                return t;
+        }
     }
 
     /**
@@ -37,31 +60,37 @@ public class SplayWithGet<E extends Comparable<? super E>> extends BinarySearchT
      * @param newRoot the element to be retrieved from the list
      * @returns the entry which has become the new root.
      */
-    private Entry rearrangeToNewRoot(Entry newRoot){
+    private Entry splay(Entry newRoot){
         if (newRoot.parent != null) {
             while (newRoot.parent.parent != null){  //Check if grandparent exists
-                if (newRoot.element.compareTo(newRoot.parent.element) > 0){
+                int grandParentComp = newRoot.element.compareTo(newRoot.parent.parent.element);
+                int parentComp = newRoot.element.compareTo(newRoot.parent.element);
+
+                if (parentComp > 0){
                     //parent is smaller
-                    if(newRoot.element.compareTo(newRoot.parent.parent.element) > 0){
+                    if(grandParentComp > 0){
                         //grandparent is smaller
-                        zig(newRoot.parent);
+                        zigZig(newRoot.parent.parent);
                     }else{
                         //grandparent is larger
                         zigZag(newRoot.parent.parent);
+                        newRoot = newRoot.parent;
                     }
-                }else if(newRoot.element.compareTo(newRoot.parent.element) < 0){
+                }else if(parentComp < 0){
                     //parent is larger
-                    if(newRoot.element.compareTo(newRoot.parent.parent.element) > 0){
+                    if(grandParentComp > 0){
                         //grandparent is smaller
                         zagZig(newRoot.parent.parent);
+                        newRoot = newRoot.parent;
                     }else{
                         //grandparent is larger
-                        zag(newRoot.parent);
+                        zagZag(newRoot.parent.parent);
                     }
                 }else{
                     rearrangeWhenEqualParent(newRoot);
+                    newRoot = newRoot.parent;
                 }
-                newRoot = newRoot.parent;
+
                 if (newRoot.parent == null){
                     break;
                 }
@@ -70,7 +99,7 @@ public class SplayWithGet<E extends Comparable<? super E>> extends BinarySearchT
             if (newRoot.parent != null){
                 if(newRoot.element.compareTo(newRoot.parent.element) > 0){
                     zig(newRoot.parent);
-                }else if(newRoot.element.compareTo(newRoot.parent.element) > 0){
+                }else if(newRoot.element.compareTo(newRoot.parent.element) < 0){
                     zag(newRoot.parent);
                 }else{
                     rearrangeWhenEqualParent(newRoot);
@@ -195,5 +224,100 @@ public class SplayWithGet<E extends Comparable<? super E>> extends BinarySearchT
         z.parent  = x;
     } //  doubleRotateLeft
 
+    /*
+               x'                  z'
+              / \                /   \
+             A   y'   -->       y'    D
+                / \            / \
+               B   z'          x'  C
+                  / \        / \
+                 C   D      A   B
+     */
+
+    private void zigZig(Entry x){
+        Entry   xParent = x.parent,
+                y = x.right,
+                z = y.right,
+                A = x.left,
+                B = y.left,
+                C = z.left,
+                D = z.right;
+
+        z.parent = xParent;
+
+        z.right = D;
+        if (D != null){
+            D.parent = z;
+        }
+
+        z.left = y;
+        y.parent = z;
+
+        y.right = C;
+        if (C != null){
+            C.parent = y;
+        }
+
+        y.left = x;
+        x.parent = y;
+
+        x.right = B;
+        if (B != null){
+            B.parent = x;
+        }
+
+        x.left = A;
+        if (A != null){
+            A.parent = x;
+        }
+    }
+
+    /*
+                 x'               z'
+               /   \             / \
+              y'    D     -->   A   y'
+             / \                   / \
+            z'  C                 B   x'
+           / \                       / \
+          A   B                     C   D
+     */
+
+    private void zagZag(Entry x){
+        Entry   xParent = x.parent,
+                y = x.left,
+                z = y.left,
+                A = z.left,
+                B = z.right,
+                C = y.right,
+                D = x.right;
+
+        z.parent = xParent;
+
+        z.left = A;
+        if (A != null){
+            A.parent = z;
+        }
+
+        z.right = y;
+        y.parent = z;
+
+        y.left = B;
+        if (B != null){
+            B.parent = y;
+        }
+
+        y.right = x;
+        x.parent = y;
+
+        x.left = C;
+        if (C != null){
+            C.parent = x;
+        }
+
+        x.right = D;
+        if (D != null){
+            D.parent = x;
+        }
+    }
 
 }
