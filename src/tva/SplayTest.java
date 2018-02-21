@@ -13,12 +13,14 @@ public class SplayTest {
 
         System.out.println(tree.toString());
 
-        tree.get(10);
+        tree.get(1);
 
         System.out.println(tree.toString());
-        
 
-        tree.get(10000);
+
+        tree.get(75);
+
+        System.out.println(tree.toString());
     }
 
 }

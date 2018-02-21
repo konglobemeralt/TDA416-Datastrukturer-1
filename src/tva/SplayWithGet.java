@@ -63,6 +63,7 @@ public class SplayWithGet<E extends Comparable<? super E>> extends BinarySearchT
     private Entry splay(Entry newRoot){
         if (newRoot.parent != null) {
             while (newRoot.parent.parent != null){  //Check if grandparent exists
+                System.out.println( "NewRoot before" + newRoot.toString());
                 int grandParentComp = newRoot.element.compareTo(newRoot.parent.parent.element);
                 int parentComp = newRoot.element.compareTo(newRoot.parent.element);
 
@@ -71,6 +72,7 @@ public class SplayWithGet<E extends Comparable<? super E>> extends BinarySearchT
                     if(grandParentComp > 0){
                         //grandparent is smaller
                         zigZig(newRoot.parent.parent);
+                        newRoot = newRoot.parent.parent;
                     }else{
                         //grandparent is larger
                         zigZag(newRoot.parent.parent);
@@ -85,11 +87,14 @@ public class SplayWithGet<E extends Comparable<? super E>> extends BinarySearchT
                     }else{
                         //grandparent is larger
                         zagZag(newRoot.parent.parent);
+                        newRoot = newRoot.parent.parent;
                     }
                 }else{
                     rearrangeWhenEqualParent(newRoot);
                     newRoot = newRoot.parent;
                 }
+
+                System.out.println( "NewRoot after" + newRoot.toString());
 
                 if (newRoot.parent == null){
                     break;
@@ -97,9 +102,10 @@ public class SplayWithGet<E extends Comparable<? super E>> extends BinarySearchT
             }
 
             if (newRoot.parent != null){
-                if(newRoot.element.compareTo(newRoot.parent.element) > 0){
+                int jmf = newRoot.element.compareTo(newRoot.parent.element);
+                if(jmf > 0){
                     zig(newRoot.parent);
-                }else if(newRoot.element.compareTo(newRoot.parent.element) < 0){
+                }else if(jmf < 0){
                     zag(newRoot.parent);
                 }else{
                     rearrangeWhenEqualParent(newRoot);
@@ -229,46 +235,46 @@ public class SplayWithGet<E extends Comparable<? super E>> extends BinarySearchT
               / \                /   \
              A   y'   -->       y'    D
                 / \            / \
-               B   z'          x'  C
+               B   z'         x'  C
                   / \        / \
                  C   D      A   B
      */
 
     private void zigZig(Entry x){
-        Entry   xParent = x.parent,
-                y = x.right,
-                z = y.right,
-                A = x.left,
-                B = y.left,
-                C = z.left,
-                D = z.right;
+        System.out.println("zigZig");
+        Entry        y = x.right;
+        Entry        z = y.right;
+        System.out.println( "x: " + x.toString()+ "  y: " + y.toString()+ "  z: " + z.toString());
+        Entry        A = x.left;
+        Entry        B = y.left;
+        Entry        C = z.left; //Error
+        Entry        D = z.right;
 
-        z.parent = xParent;
+        E temp = z.element;
+        z.element = x.element;
+        x.element = temp;
 
-        z.right = D;
+        x.left = y; //element z in x
+        y.left = z; //element x in z
+
+        x.right = D;
         if (D != null){
-            D.parent = z;
+            D.parent = x;
         }
-
-        z.left = y;
-        y.parent = z;
 
         y.right = C;
         if (C != null){
             C.parent = y;
         }
 
-        y.left = x;
-        x.parent = y;
-
-        x.right = B;
+        z.right = B;
         if (B != null){
-            B.parent = x;
+            B.parent = z;
         }
 
-        x.left = A;
+        z.left = A;
         if (A != null){
-            A.parent = x;
+            A.parent = z;
         }
     }
 
@@ -283,40 +289,40 @@ public class SplayWithGet<E extends Comparable<? super E>> extends BinarySearchT
      */
 
     private void zagZag(Entry x){
-        Entry   xParent = x.parent,
-                y = x.left,
-                z = y.left,
-                A = z.left,
-                B = z.right,
-                C = y.right,
-                D = x.right;
+        System.out.println("zagZag");
+        Entry        y = x.left;
+        Entry        z = y.left;
+        System.out.println( "x: " + x.toString()+ "  y: " + y.toString()+ "  z: " + z.toString());
+        Entry        A = z.left; //Error
+        Entry        B = z.right;
+        Entry        C = y.right;
+        Entry        D = x.right;
 
-        z.parent = xParent;
+        E temp = z.element;
+        z.element = x.element;
+        x.element = temp;
 
-        z.left = A;
+        x.right = y; //element z in x
+        y.right = z; //element x in z
+
+        x.left = A;
         if (A != null){
-            A.parent = z;
+            A.parent = x;
         }
-
-        z.right = y;
-        y.parent = z;
 
         y.left = B;
         if (B != null){
             B.parent = y;
         }
 
-        y.right = x;
-        x.parent = y;
-
-        x.left = C;
+        z.left = C;
         if (C != null){
-            C.parent = x;
+            C.parent = z;
         }
 
-        x.right = D;
+        z.right = D;
         if (D != null){
-            D.parent = x;
+            D.parent = z;
         }
     }
 
