@@ -193,6 +193,7 @@ public class TestFrame extends JFrame implements ActionListener {
 			} 
 			catch( NullPointerException ex) { 
 				listModel.addElement("NO Collection implemented");
+				ex.printStackTrace();
 			}
 		}
 	}

@@ -25,9 +25,12 @@ public class SplayWithGet<E extends Comparable<? super E>> extends BinarySearchT
         if(searchedEntry==null){
             return null;
         }
-        this.root = splay(searchedEntry);
 
-        return root.element;
+        E searchedEntryElement = searchedEntry.element;
+
+        splay(searchedEntry);
+
+        return searchedEntryElement;
     }
 
     @Override
@@ -60,7 +63,7 @@ public class SplayWithGet<E extends Comparable<? super E>> extends BinarySearchT
      * @param newRoot the element to be retrieved from the list
      * @returns the entry which has become the new root.
      */
-    private Entry splay(Entry newRoot){
+    private void splay(Entry newRoot){
         if (newRoot.parent != null) {
             while (newRoot.parent.parent != null){  //Check if grandparent exists
                 //System.out.println( "NewRoot before" + newRoot.toString());
@@ -114,7 +117,7 @@ public class SplayWithGet<E extends Comparable<? super E>> extends BinarySearchT
             }
         }
 
-        return newRoot;
+        root = newRoot;
 
     }
 
