@@ -52,10 +52,8 @@ public class SLCWithGet<E extends Comparable<? super E>> extends LinkedCollectio
     public E get(E e) {
         if(e!=null) {
             for (Entry p = head; p != null; p = p.next) {
-                if (e == p) {
+                if (e.compareTo(p.element) == 0) {
                     return p.element;
-                }else if(p.element.compareTo(e) >= 0){
-                    break;
                 }
             }
         }else{

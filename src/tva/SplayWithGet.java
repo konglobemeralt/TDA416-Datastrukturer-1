@@ -63,7 +63,7 @@ public class SplayWithGet<E extends Comparable<? super E>> extends BinarySearchT
     private Entry splay(Entry newRoot){
         if (newRoot.parent != null) {
             while (newRoot.parent.parent != null){  //Check if grandparent exists
-                System.out.println( "NewRoot before" + newRoot.toString());
+                //System.out.println( "NewRoot before" + newRoot.toString());
                 int grandParentComp = newRoot.element.compareTo(newRoot.parent.parent.element);
                 int parentComp = newRoot.element.compareTo(newRoot.parent.element);
 
@@ -94,7 +94,7 @@ public class SplayWithGet<E extends Comparable<? super E>> extends BinarySearchT
                     newRoot = newRoot.parent;
                 }
 
-                System.out.println( "NewRoot after" + newRoot.toString());
+                //System.out.println( "NewRoot after" + newRoot.toString());
 
                 if (newRoot.parent == null){
                     break;
@@ -241,7 +241,7 @@ public class SplayWithGet<E extends Comparable<? super E>> extends BinarySearchT
      */
 
     private void zigZig(Entry x){
-        System.out.println("zigZig");
+        //System.out.println("zigZig");
         Entry        y = x.right;
         Entry        z = y.right;
         System.out.println( "x: " + x.toString()+ "  y: " + y.toString()+ "  z: " + z.toString());
@@ -289,7 +289,7 @@ public class SplayWithGet<E extends Comparable<? super E>> extends BinarySearchT
      */
 
     private void zagZag(Entry x){
-        System.out.println("zagZag");
+        //System.out.println("zagZag");
         Entry        y = x.left;
         Entry        z = y.left;
         System.out.println( "x: " + x.toString()+ "  y: " + y.toString()+ "  z: " + z.toString());
