@@ -25,12 +25,8 @@ public class SLCWithGet<E extends Comparable<? super E>> extends LinkedCollectio
     public boolean add(E element) {
         if (element == null) {
             throw new NullPointerException();
-        }else if (this.isEmpty()) {
+        }else if (this.isEmpty() || element.compareTo(head.element)<=0) {
             head = new Entry(element, head);
-            return true;
-        }else if(element.compareTo(head.element)<=0){
-            Entry newEntry = new Entry(element,head);
-            head = newEntry;
             return true;
         }else{
             for ( Entry p = head; p != null; p = p.next ){
@@ -58,6 +54,8 @@ public class SLCWithGet<E extends Comparable<? super E>> extends LinkedCollectio
             for (Entry p = head; p != null; p = p.next) {
                 if (e == p) {
                     return p.element;
+                }else if(p.element.compareTo(e) >= 0){
+                    break;
                 }
             }
         }else{
